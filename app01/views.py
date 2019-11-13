@@ -13,6 +13,7 @@ def timer(func):
         print('{}运行用了{}ms'.format(func.__name__,int(((time.time()-start))*1000)))
         return ret
     return inner
+
 def index(request):
     name = request.GET.get('name')
     if name and models.User.objects.filter(username=name):
@@ -40,12 +41,12 @@ def register(request):
             return render(request, 'register.html', {'error': '用户名不能为空'})
         models.User.objects.create(username=user,password=passwd)
         return redirect('/app01/login/')
-
     return render(request,'register.html')
 
 def publisher_list(request):
     all_publishers = models.Publisher.objects.all()
     return render(request, 'publisher_list.html', {'all_publishers': all_publishers})
+
 @method_decorator(timer,name='dispatch')
 class Publishadd(View):
     def get(self,request,*args,**kwargs):
