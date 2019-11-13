@@ -10,7 +10,7 @@ def timer(func):
     def inner(*args,**kwargs):
         start=time.time()
         ret=func(*args,**kwargs)
-        print('{}运行用了{}秒'.format(func.__name__,time.time()-start))
+        print('{}运行用了{}ms'.format(func.__name__,int(((time.time()-start))*1000)))
         return ret
     return inner
 def index(request):
@@ -54,8 +54,7 @@ class Publishadd(View):
         pub_name = request.POST.get('pub_name')
         if not pub_name:
             return render(request, 'publisher_add.html', {'error': '名称不能为空'})
-        ret = models.Publisher.objects.create(name=pub_name)
-        print(ret, type(ret))
+        models.Publisher.objects.create(name=pub_name)
         return redirect(reverse('app01:pub'))
 # def publisher_add(request):
 #     if request.method == 'POST':
