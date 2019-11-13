@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+</head>
+<body>
+{#    {% load static %}#}
+<div style="height: 500px;margin: 10px;background-image: url('/static/2.jpg')" >
+    <form action="" method="post" style="float: right;margin-top: 200px;margin-right: 40%">
+        <p style="font-size: 20px;color: orangered">用户登录</p>
+        <p>
+            用户名: <input type="text" name="user" style="height: 25px">
+        </p>
+        <p>
+            密 &nbsp;&nbsp;码: <input type="password" name="password" style="height: 25px">
+        </p>
+        <p style="color: red;font-size: 20px">
+            {{ error }}
+        </p>
+{#    <input type="submit" value="提交">#}
+        <a href="{% url 'app01:register' %}" style="font-size: 20px;text-decoration: none;color: white">注册</a>
+    <button style="font-size: 20px;color: red;margin-left: 127px">登录</button>
+
+    </form>
+</div>
+
+
+</body>
+</html>

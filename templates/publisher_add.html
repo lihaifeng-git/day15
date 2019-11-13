@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加</title>
+    <!-- Bootstrap core CSS -->
+    <link href="/static/plugins/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <!-- Custom styles for this template -->
+    <link href="/static/css/dashboard.css" rel="stylesheet">
+</head>
+<body>
+{% include 'nav.html' %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <li><a href="{% url 'app01:pub' %}">出版社列表</a></li>
+                <li class="active"><a href="{% url 'app01:pub-add' %}">添加<span class="sr-only">(current)</span></a></li>
+                <li><a href="#">Anything</a></li>
+
+                <li><a href="#">Export</a></li>
+            </ul>
+
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h1 class="page-header">添加</h1>
+            <div class="table-responsive">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <p>
+                        出版社名称: <input type="text" name="pub_name"> <span> {{ error }}</span>
+                    </p>
+                    <p>
+                        <button>提交</button>
+                    </p>
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
