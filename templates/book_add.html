@@ -16,8 +16,8 @@
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
-                <li><a href="{% url 'publisher' %}">出版社列表</a></li>
-                <li class="active"><a href="{% url 'pub-add' %}">添加<span class="sr-only">(current)</span></a></li>
+                <li><a href="{% url 'book' %}">出版社列表</a></li>
+                <li class="active"><a href="{% url 'book_add' %}">添加<span class="sr-only">(current)</span></a></li>
                 <li><a href="#">Anything</a></li>
 
                 <li><a href="#">Export</a></li>
@@ -30,9 +30,18 @@
                 <form class="form-inline" action="" method="post">
                     {% csrf_token %}
                     <div class="form-group">
-                        <label for="exampleInputName2">出版社名称：</label>
-                        <input type="text" class="form-control" id="exampleInputName2" name="pub_name"><span> {{ error }}</span>
+                        <label for="exampleInputName2">书名：</label>
+                        <input type="text" class="form-control" id="exampleInputName2" name="book_name"><span> {{ error }}</span>
                     </div>
+                    <div style="margin-top: 10px">
+                         出版社名称：<select name="pub_name" id="">
+                        {% for publisher in all_publishers %}
+                            <option value="{{ publisher.pk }}">{{ publisher.name }}</option>
+                        {% endfor %}
+
+                    </select>
+                    </div>
+
 {#                    <p>#}
 {#                        出版社名称: <input type="text" name="pub_name"> <span> {{ error }}</span>#}
 {#                    </p>#}

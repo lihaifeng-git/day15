@@ -25,5 +25,5 @@ urlpatterns = [
     # url(r'^login/', views.login),
     # url(r'^index/', views.index),
     # url(r'^register/', views.register),
-    url(r'app01/',include('app01.urls',namespace='app01')),
+    url(r'app01/',include('app01.urls')),
 ]

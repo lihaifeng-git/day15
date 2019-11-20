@@ -56,7 +56,7 @@ class Publishadd(View):
         if not pub_name:
             return render(request, 'publisher_add.html', {'error': '名称不能为空'})
         models.Publisher.objects.create(name=pub_name)
-        return redirect(reverse('app01:pub'))
+        return redirect(reverse('publisher'))
 # def publisher_add(request):
 #     if request.method == 'POST':
 #         pub_name = request.POST.get('pub_name')
@@ -72,7 +72,7 @@ def publisher_del(request,pk):
     # pk = request.GET.get('pk')
     # models.Publisher.objects.get(pk=pk).delete()
     models.Publisher.objects.filter(pk=pk).delete()
-    return redirect(reverse('app01:pub'))
+    return redirect(reverse('publisher'))
 
 
 def publisher_edit(request,pk):
@@ -82,5 +82,45 @@ def publisher_edit(request,pk):
         pub_name = request.POST.get('pub_name')
         obj.name = pub_name
         obj.save()
-        return redirect(reverse('app01:pub'))
+        return redirect(reverse('publisher'))
     return render(request, 'publisher_edit.html', {'obj': obj})
+
+def book_list(request):
+    all_book=models.Book.objects.all()
+    return render(request,'book.html',{'all_book':all_book})
+
+class BookAdd(View):
+    def get(self,request):
+        all_publishers = models.Publisher.objects.all()
+        return render(request,'book_add.html',{'all_publishers':all_publishers})
+    def post(self,request):
+        title=request.POST.get('book_name')
+        pub=request.POST.get('pub_name')
+        if not title:
+            return render(request,'book_add.html',{'error':'名称不能为空'})
+        models.Book.objects.create(title=title,pub_id=pub)
+        return redirect(reverse('book'))
+
+class BookEdit(View):
+    def get(self,request,pk):
+        all_publishers = models.Publisher.objects.all()
+        book_obj=models.Book.objects.get(pk=pk)
+        return render(request,'book_edit.html',{'all_publishers':all_publishers,'book_obj':book_obj})
+    def post(self,request,pk):
+        all_publishers = models.Publisher.objects.all()
+        book_obj = models.Book.objects.get(pk=pk)
+        title=request.POST.get('book_name')
+        pub=request.POST.get('pub_name')
+        if not title:
+            return render(request,'book_edit.html',{'error':'名称不能为空','all_publishers':all_publishers,'book_obj':book_obj})
+        models.Book.objects.filter(pk=pk).update(title=title,pub_id=pub)
+        return redirect(reverse('book'))
+
+def delete(request,table,pk):
+    obj=getattr(models,table.capitalize())
+    obj.objects.get(pk=pk).delete()
+    return redirect(reverse(table))
+
+def author_list(request):
+    all_authors=models.Author.objects.all()
+    return render(request,'author.html',{'all_authors':all_authors})

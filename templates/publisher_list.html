@@ -6,8 +6,16 @@
 {#</head>#}
 {#<body>#}
 {% extends 'base.html' %}
+{% block title %}
+            <ul class="nav nav-sidebar">
+                <li class="active"><a href="{% url 'publisher' %}">出版社列表 <span class="sr-only">(current)</span></a></li>
+                <li><a href="{% url 'pub-add' %}">添加</a></li>
+                <li><a href="#">Anything</a></li>
+                <li><a href="#">Export</a></li>
+            </ul>
+{% endblock %}
 {% block content %}
-    <a  class="btn btn-info" href="{% url 'app01:pub-add' %}">添加</a>
+    <a  class="btn btn-info" href="{% url 'pub-add' %}">添加</a>
     <table class="table table-hover table-striped" >
     <thead>
     <tr style="color: red">
@@ -25,8 +33,8 @@
             <td > {{ publisher.id }} </td>
             <td > {{ publisher.name }} </td>
             <td>
-                <a class="btn btn-danger" href="{% url 'app01:pub-del' pk=publisher.pk %}">删除</a>
-                <a class="btn btn-warning" href="{% url 'app01:pub-edit' pk=publisher.pk %}">编辑</a>
+                <a class="btn btn-danger" href="{% url 'del' 'publisher' publisher.pk %}">删除</a>
+                <a class="btn btn-warning" href="{% url 'pub-edit' pk=publisher.pk %}">编辑</a>
             </td>
         </tr>
     {% endfor %}
