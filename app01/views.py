@@ -124,3 +124,29 @@ def delete(request,table,pk):
 def author_list(request):
     all_authors=models.Author.objects.all()
     return render(request,'author.html',{'all_authors':all_authors})
+
+def author_add(request):
+    all_books=models.Book.objects.all()
+    if request.method == 'POST':
+        author_name=request.POST.get('author_name')
+        if not author_name:
+            return render(request, 'author_add.html',{'error':'作者名字不能为空','all_books':all_books})
+        book_name=request.POST.getlist('book_name')
+        author_obj=models.Author.objects.create(name=author_name)
+        author_obj.books.set(book_name)
+        return redirect(reverse('author'))
+    return render(request,'author_add.html',{'all_books':all_books})
+
+def author_edit(request,pk):
+    all_books = models.Book.objects.all()
+    author_obj=models.Author.objects.get(pk=pk)
+    if request.method == 'POST':
+        author_name=request.POST.get('author_name')
+        if not author_name:
+            return render(request,'author_edit.html',{'all_books':all_books,'author_obj':author_obj,'error':'作者名字不能为空'})
+        book_name=request.POST.getlist('book_name')
+        author_obj.name=author_name
+        author_obj.save()
+        author_obj.books.set(book_name)
+        return redirect(reverse('author'))
+    return render(request,'author_edit.html',{'all_books':all_books,'author_obj':author_obj})

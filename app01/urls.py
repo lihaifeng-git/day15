@@ -13,4 +13,6 @@ urlpatterns = [
     url(r'^book/edit/(\d+)$', views.BookEdit.as_view(),name='book_edit'),
     url(r'^(\w+)/del/(\d+)$', views.delete,name='del'),
     url(r'^author/$', views.author_list,name='author'),
+    url(r'^author/add/$', views.author_add,name='author_add'),
+    url(r'^author/edit/(\d+)$', views.author_edit,name='author_edit'),
 ]

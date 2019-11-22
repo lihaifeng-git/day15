@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>添加</title>
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'plugins/bootstrap-3.3.7-dist/css/bootstrap.min.css' %}" rel="stylesheet">
+
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
+</head>
+<body>
+{% include 'nav.html' %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <li><a href="{% url 'author' %}">作者列表</a></li>
+                <li class="active"><a href="{% url 'book_add' %}">添加<span class="sr-only">(current)</span></a></li>
+                <li><a href="#">Anything</a></li>
+
+                <li><a href="#">Export</a></li>
+            </ul>
+
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h1 class="page-header">添加</h1>
+            <div class="table-responsive" style="overflow-x: unset">
+{#                <form class="form-inline" action="" method="post">#}
+{#                    {% csrf_token %}#}
+{#                    <div class="form-group">#}
+{#                        <label for="exampleInputName2">作者名：</label>#}
+{#                        <input type="text" class="form-control" id="exampleInputName2" name="author_name"><span> {{ error }}</span>#}
+{#                    </div>#}
+{#                    <div style="margin-top: 10px">#}
+{#                         出版书籍：<select name="book_name" id="" multiple>#}
+{#                        {% for books in all_books %}#}
+{#                            <option value="{{ books.pk }}">{{ books.title }}</option>#}
+{#                        {% endfor %}#}
+{##}
+{#                    </select>#}
+{#                    </div>#}
+{##}
+{#                    <p>#}
+{#                        出版社名称: <input type="text" name="pub_name"> <span> {{ error }}</span>#}
+{#                    </p>#}
+{#                    <p>#}
+{#                        <button class="btn btn-info">提交</button>#}
+{#                    </p>#}
+{#                </form>#}
+                 <form class="form-horizontal" method="post" action="">
+                    {% csrf_token %}
+                    <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-1 control-label">作者名</label>
+                        <div class="col-sm-3">
+                        <input type="text" name="author_name" class="form-control" id="inputEmail3"><span style="color: red">{{ error }}</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-1 control-label">出版书籍</label>
+
+                    <div class="col-sm-3">
+                         <select class="form-control" name="book_name" id="" multiple>
+                           {% for books in all_books %}
+                            <option value="{{ books.pk }}">{{ books.title }}</option>
+                        {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-1 col-sm-10">
+                <button type="submit" class="btn btn-primary ">保存</button>
+            </div>
+        </div>
+    </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
