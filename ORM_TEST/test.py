@@ -3,6 +3,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "day15.settings")
 import django
 django.setup()
 from app02 import models
+from django.db.models import Max,Min,Sum,Avg,Count
 #查找所有书名里包含金老板的书
 # ret=models.Book.objects.filter(title__icontains='金老板')
 # for i in ret:
@@ -40,7 +41,12 @@ from app02 import models
 # for i in ret:
 #     ret=models.Book.objects.filter(publisher=i.pk)
 #     print (ret)
-
+#查找每个出版社出版价格最高的书籍价格
+# ret=models.Publisher.objects.values('name').annotate(Max('book__price'))
+# print(ret)
+#查找每个出版社的名字以及出的书籍数量
+# ret=models.Publisher.objects.values('name').annotate(Count('book__title'))
+# print(ret)
 
 
 # 查找作者名字里面带“小”字的作者
@@ -57,3 +63,40 @@ from app02 import models
 # for i in ret:
 #     print ('作者姓名：{},年龄：{}'.format(i.name,i.age))
 
+
+
+# 查找每个作者写的价格最高的书籍价格
+# ret=models.Author.objects.values('name').annotate(Max('book__price'))
+# print(ret)
+# 查找每个作者的姓名以及出的书籍数量
+# ret=models.Author.objects.values('name').annotate(Count('book__title'))
+# print(ret)
+
+
+
+# 查找书名是“跟金老板学开车”的书的出版社
+# ret=models.Publisher.objects.filter(book__title='跟金老板学开车')
+# print(ret)
+# 查找书名是“跟金老板学开车”的书的出版社所在的城市
+# ret=models.Publisher.objects.filter(book__title='跟金老板学开车').first()
+# print(ret.city)
+# 查找书名是“跟金老板学开车”的书的出版社的名称
+# ret=models.Publisher.objects.filter(book__title='跟金老板学开车').first()
+# print(ret.name)
+# 查找书名是“跟金老板学开车”的书的出版社出版的其他书籍的名字和价格
+# ret=models.Publisher.objects.values('book__title','book__price').filter(book__title='跟金老板学开车')
+# print(ret)
+
+
+# 查找书名是“跟金老板学开车”的书的所有作者
+# ret=models.Author.objects.filter(book__title='跟金老板学开车')
+# print(ret)
+# 查找书名是“跟金老板学开车”的书的作者的年龄
+# ret=models.Author.objects.values('name','age').filter(book__title='跟金老板学开车')
+# print(ret)
+# 查找书名是“跟金老板学开车”的书的作者的手机号码
+# ret=models.Author.objects.values('name','phone').filter(book__title='跟金老板学开车')
+# print(ret)
+# 查找书名是“跟金老板学开车”的书的作者们的姓名以及出版的所有书籍名称和价钱
+# ret=models.Author.objects.values('name','book__title','book__price').filter(book__title='跟金老板学开车')
+# print(ret)

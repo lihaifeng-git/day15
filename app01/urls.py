@@ -5,7 +5,7 @@ urlpatterns = [
     url(r'^publisher_add/', views.Publishadd.as_view(),name='pub-add'),
     url(r'^publisher_del/(?P<pk>\d+)$', views.publisher_del,name='pub-del'),
     url(r'^publisher_edit/(?P<pk>\d+)$', views.publisher_edit,name='pub-edit'),
-    url(r'^login/', views.login),
+    url(r'^login/', views.login,name='login'),
     url(r'^index/', views.index),
     url(r'^register/', views.register,name='register'),
     url(r'^book/$', views.book_list,name='book'),
