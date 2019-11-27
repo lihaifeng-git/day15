@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/static/js/getCookie.js"></script>
+</head>
+<body>
+<input type="text" name="i1" value="{{ i1 }}">+
+<input type="text" name="i2" value="{{ i2 }}">=
+<input type="text" name="i3" value="{{ i3 }}">
+<button id="t1">计算</button>
+
+<script>
+    $('#t1').click(function () {
+        $.ajax({
+            url:'/app02/re/',
+            type:'post',
+            data:{i1:$('[name="i1"]').val(),i2:$('[name="i2"]').val()},
+            success:function (res) {
+                $('[name="i3"]').val(res)
+            }
+        })
+    })
+</script>
+</body>
+</html>

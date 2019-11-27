@@ -26,4 +26,5 @@ urlpatterns = [
     # url(r'^index/', views.index),
     # url(r'^register/', views.register),
     url(r'app01/',include('app01.urls')),
+    url(r'app02/',include('app02.urls')),
 ]
