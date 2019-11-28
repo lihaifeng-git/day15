@@ -5,15 +5,15 @@ from functools import wraps
 from django.utils.decorators import method_decorator
 import time
 # Create your views here.
-def login_require(func):
-    def inner(request,*args,**kwargs):
-        is_login=request.COOKIES.get('is_login')
-        if is_login != '1':
-            url=request.path_info
-            return redirect('{}?return={}'.format(reverse('login'),url))
-        ret=func(request,*args,**kwargs)
-        return ret
-    return inner
+# def login_require(func):
+#     def inner(request,*args,**kwargs):
+#         is_login=request.COOKIES.get('is_login')
+#         if is_login != '1':
+#             url=request.path_info
+#             return redirect('{}?return={}'.format(reverse('login'),url))
+#         ret=func(request,*args,**kwargs)
+#         return ret
+#     return inner
 def timer(func):
     @wraps(func)
     def inner(*args,**kwargs):
@@ -35,11 +35,12 @@ def login(request):
         passwd=request.POST.get('password')
         if models.User.objects.filter(username=user,password=passwd):
             returnurl=request.GET.get('return')
+            request.session["user"]=user
             if returnurl:
                 response=redirect(returnurl)
             else:
                 response=redirect(reverse('publisher'))
-            response.set_cookie('is_login','1')
+            # response.set_cookie('is_login','1')
             # return redirect('/app01/index/?name='+user)
             return response
         elif user=='' or passwd=='':
@@ -58,11 +59,11 @@ def register(request):
         models.User.objects.create(username=user,password=passwd)
         return redirect(reverse('login'))
     return render(request,'register.html')
-@login_require
+# @login_require
 def publisher_list(request):
     all_publishers = models.Publisher.objects.all()
     return render(request, 'publisher_list.html', {'all_publishers': all_publishers})
-@method_decorator(login_require,name='dispatch')
+# @method_decorator(login_require,name='dispatch')
 @method_decorator(timer,name='dispatch')
 class Publishadd(View):
     def get(self,request,*args,**kwargs):
@@ -100,11 +101,11 @@ def publisher_edit(request,pk):
         obj.save()
         return redirect(reverse('publisher'))
     return render(request, 'publisher_edit.html', {'obj': obj})
-@login_require
+# @login_require
 def book_list(request):
     all_book=models.Book.objects.all()
     return render(request,'book.html',{'all_book':all_book})
-@method_decorator(login_require,name='dispatch')
+# @method_decorator(login_require,name='dispatch')
 class BookAdd(View):
     def get(self,request):
         all_publishers = models.Publisher.objects.all()
@@ -136,11 +137,11 @@ def delete(request,table,pk):
     obj=getattr(models,table.capitalize())
     obj.objects.get(pk=pk).delete()
     return redirect(reverse(table))
-@login_require
+# @login_require
 def author_list(request):
     all_authors=models.Author.objects.all()
     return render(request,'author.html',{'all_authors':all_authors})
-@login_require
+# @login_require
 def author_add(request):
     all_books=models.Book.objects.all()
     if request.method == 'POST':
