@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect,reverse
 from app01 import models
 from django.views import View
 from functools import wraps
+from django import forms
 from django.utils.decorators import method_decorator
 import time
 # Create your views here.
@@ -167,3 +168,21 @@ def author_edit(request,pk):
         author_obj.books.set(book_name)
         return redirect(reverse('author'))
     return render(request,'author_edit.html',{'all_books':all_books,'author_obj':author_obj})
+
+class BookForm(forms.ModelForm):
+    class Meta:
+        model=models.Book
+        fields='__all__'
+    def __init__(self,*args,**kwargs):
+        super().__init__(*args,**kwargs)
+        for field in self.fields.values():
+            field.widget.attrs['class']='form-control'
+def book_change(request,pk=None):
+    obj=models.Book.objects.filter(pk=pk).first()
+    book_form = BookForm(instance=obj)
+    if request.method=='POST':
+        book_form = BookForm(request.POST,instance=obj)
+        if book_form.is_valid():
+            book_form.save()
+            return redirect(reverse('book'))
+    return render(request,'book_form.html',{'book_form':book_form})

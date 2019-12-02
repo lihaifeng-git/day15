@@ -1,44 +1,74 @@
 {% extends 'base.html' %}
 {% block title %}
     <ul class="nav nav-sidebar">
-                <li class="active"><a href="{% url 'book' %}">出版社列表 <span class="sr-only">(current)</span></a></li>
-                <li><a href="{% url 'book_add' %}">添加</a></li>
-                <li><a href="#">Anything</a></li>
-                <li><a href="#">Export</a></li>
+        <li class="active"><a href="{% url 'book' %}">出版社列表 <span class="sr-only">(current)</span></a></li>
+        <li><a href="{% url 'book_add' %}">添加</a></li>
+        <li><a href="#">Anything</a></li>
+        <li><a href="#">Export</a></li>
     </ul>
 {% endblock %}
 {% block content %}
 
-    <a  class="btn btn-info" href="{% url 'book_add' %}">添加</a>
-    <table class="table table-hover table-striped" >
-    <thead>
-    <tr style="color: red">
-        <th>序号</th>
-        <th>ID</th>
-        <th>书名</th>
-        <th>出版社名称</th>
-        <th>操作</th>
-    </tr>
-    </thead>
-    <tbody>
-
-    {% for book in all_book %}
-        <tr >
-            <td > {{ forloop.counter }} </td>
-            <td > {{ book.id }} </td>
-            <td > {{ book.title }} </td>
-            <td > {{ book.pub.name }} </td>
-            <td>
-                <a class="btn btn-danger" href="{% url 'del' 'book' book.pk %}">删除</a>
-                <a class="btn btn-warning" href="{% url 'book_edit' book.pk %}">编辑</a>
-            </td>
+    <a class="btn btn-info" href="{% url 'book_add' %}">添加</a>
+    <table class="table table-hover table-striped">
+        <thead>
+        <tr style="color: red">
+            <th>序号</th>
+            <th>ID</th>
+            <th>书名</th>
+            <th>出版社名称</th>
+            <th>操作</th>
         </tr>
-    {% endfor %}
+        </thead>
+        <tbody>
 
-    </tbody>
-</table>
+        {% for book in all_book %}
+            <tr>
+                <td> {{ forloop.counter }} </td>
+                <td> {{ book.id }} </td>
+                <td> {{ book.title }} </td>
+                <td> {{ book.pub.name }} </td>
+                <td>
+                    <button class="btn btn-danger" href="{% url 'del' 'book' book.pk %}">删除</button>
+                    <a class="btn btn-warning" href="{% url 'book_edit' book.pk %}">编辑</a>
+                </td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
 
 
 
 
+{% endblock %}
+{% block js %}
+    <script>
+        $('.btn-danger').click(function () {
+            swal({
+                title: "你确定吗?",
+                text: "一旦删除不可以恢复!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        $.ajax({
+                            url: $(this).attr('href'),
+                            success: (res) => {
+                                $(this).parent().parent().remove();
+                                swal("删除成功!", {
+                                    icon: "success",
+                                });
+                            }
+                        });
+
+                    } else {
+                        swal("已取消!");
+                    }
+                });
+
+        })
+    </script>
 {% endblock %}
